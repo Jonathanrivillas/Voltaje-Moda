@@ -1,0 +1,94 @@
+.newsletter-section {
+  background: #000;
+  color: #fff;
+  padding: 40px 0 24px 0;
+  width: 100vw;
+  margin: 0;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, 0); /* Centra y extiende el fondo negro */
+}
+
+.newsletter-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  gap: 32px;
+}
+
+.newsletter-info {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.newsletter-title {
+  font-size: 2.2rem;
+  font-family: 'Poppins', serif;
+  margin-top: 0;
+  margin-left: 200px;
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.newsletter-subtitle {
+  font-size: 1.1rem;
+  margin-top: 1px;
+  margin-left: 200px;
+  text-align: left;
+}
+
+.newsletter-form-side {
+  flex: 1.2;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.newsletter-input {
+  padding: 10px 16px;
+  border-radius: 20px 0 0 20px;
+  border: none;
+  width: 220px;
+  font-size: 1rem;
+}
+
+.newsletter-btn {
+  padding: 10px 24px;
+  border-radius: 0 20px 20px 0;
+  border: none;
+  background: #fff;
+  color: #222;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.newsletter-legal {
+  font-size: 0.6rem;
+  text-align: left;
+  max-width: 400px;
+}
+
+.newsletter-legal label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.newsletter-legal a {
+  color: #fff;
+  text-decoration: underline;
+}

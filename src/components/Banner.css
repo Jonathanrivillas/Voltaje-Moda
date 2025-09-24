@@ -1,0 +1,27 @@
+.banner-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  padding: 2px 0;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.banner-message {
+  display: inline-block;
+  transition: transform 0.4s cubic-bezier(.77,0,.18,1), opacity 0.4s;
+  transform: translateX(0);
+  opacity: 1;
+  will-change: transform, opacity;
+}
+
+.banner-message.slide-out {
+  transform: translateX(100vw);
+  opacity: 0;
+}

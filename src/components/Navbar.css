@@ -1,0 +1,100 @@
+.navbar-container {
+  width: 100vw;
+  min-width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  align-items: center;
+  padding: 7px 24px;
+  gap: 32px;
+  background: #fff;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.navbar-logo {
+  font-weight: bold;
+  color: #fce2de;
+  font-size: 2rem;
+  margin-right: 24px;
+  -webkit-text-stroke: 1px #e57373;
+  font-family:'Poppins', sans-serif;
+  cursor: pointer;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 45px;
+  list-style: none;
+  margin: 0;
+}
+
+.navbar-menu li {
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.navbar-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+}
+
+.navbar-actions button {
+  border: none;
+  padding: 2px 1px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: transparent;
+}
+
+.navbar-search {
+  display: flex;
+  align-items: center;
+  color: #222;
+  background: #fff;
+  border: 2px solid #222;
+  border-radius: 20px;
+  padding: 2px 15px;
+  margin-right: 10px;
+  min-width: 180px;
+  max-width: 110px;
+}
+
+.navbar-search-icon {
+  font-size: 1rem;
+  margin-right: 4px;
+}
+
+.navbar-search-input {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: transparent;
+  width: 100px;
+  color: #000
+}
+
+.navbar-btn {
+  outline: none;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.navbar-btn:hover {
+  color: #e57373;
+  transition: color 0.2s;
+  font-weight: bold;
+}
+.navbar-btn:focus {
+  outline: none;
+}
