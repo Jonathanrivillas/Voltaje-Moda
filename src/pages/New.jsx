@@ -1,73 +1,126 @@
-import './New.css'
+import React, { useState, useEffect } from 'react'
+import './styles.css'
 
 const products = [
   {
-    img: 'public/images/ConjuntoBandeja.jpeg',
-    name: 'Conjunto verano',
-    price: 120000,
-    oldPrice: null,
-    liked: false,
-  },
-  {
-    img: 'public/images/Vestido-Largo-Abierto.jpeg',
-    name: 'Vestido Abierto',
+    images: [
+      'public/images/ConjuntoBandeja.jpeg',
+      'public/images/ConjuntoBandeja-2.jpeg',
+      'public/images/ConjuntoBandeja-3.jpeg'
+    ],
+    name: 'Conjunto bandeja',
     price: 59900,
     oldPrice: null,
-    liked: false,
   },
   {
-    img: 'public/images/293826F3-5B92-4D2C-BC3F-316C214F0688_1_105_c.jpeg',
-    name: 'Top corto',
+    images: [
+      'public/images/Vestido-Largo-Abierto.jpeg',
+      'public/images/Vestido-Largo-Abierto-2.jpeg',
+      'public/images/Vestido-Largo-Abierto-3.jpeg'
+    ],
+    name: 'Vestido abierto',
     price: 29990,
     oldPrice: 49990,
-    liked: false,
   },
   {
-    img: 'public/images/F34C7E53-BF65-4735-8EDA-D6E53B5D5F83_1_105_c.jpeg',
-    name: 'Blusa corta',
-    price: 35000,
+    images: [
+      'public/images/Blusa-Corta-Moños.jpeg',
+      'public/images/Blusa-Corta-Moños-2.jpeg',
+      'public/images/Blusa-Corta-Moños-3.jpeg'
+    ],
+    name: 'Blusa corta moños',
+    price: 82900,
     oldPrice: null,
-    liked: true,
   },
   {
-    img: 'public/images/VestidoFloral.jpeg',
+    images: [
+      'public/images/VestidoFloral.jpeg',
+      'public/images/VestidoFloral-2.jpeg',
+      'public/images/VestidoFloral-3.jpeg'
+    ],
     name: 'Vestido floral',
-    price: 86000,
+    price: 55000,
     oldPrice: null,
-    liked: true,
   }
 ]
 
 function New() {
+  const [sortOption, setSortOption] = useState('Relevancia')
+  const [likes, setLikes] = useState(products.map(p => p.liked))
+  const [imgIndexes, setImgIndexes] = useState(products.map(() => 0))
+  
+  // Ordenar productos según la opción seleccionada
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sortOption === 'PrecioMenorMayor') {
+      return a.price - b.price
+    }
+    if (sortOption === 'PrecioMayorMenor') {
+      return b.price - a.price
+    }
+    return 0
+  })
+  const handleLike = idx => {
+    setLikes(likes =>
+      likes.map((liked, i) => (i === idx ? !liked : liked))
+    )
+  }
+  const handlePrevImg = idx => {
+    setImgIndexes(imgIndexes =>
+      imgIndexes.map((imgIdx, i) =>
+        i === idx
+          ? (imgIdx === 0 ? sortedProducts[idx].images.length - 1 : imgIdx - 1)
+          : imgIdx
+      )
+    )
+  }
+
+  const handleNextImg = idx => {
+    setImgIndexes(imgIndexes =>
+      imgIndexes.map((imgIdx, i) =>
+        i === idx
+          ? (imgIdx === sortedProducts[idx].images.length - 1 ? 0 : imgIdx + 1)
+          : imgIdx
+      )
+    )
+  }
+
+  const prices = products.map(p => p.price)
+  const minPrice = Math.min(...prices)
+  const maxPrice = Math.max(...prices)
+
+  useEffect(() => {
+      document.title = 'Nuevo | Voltaje Moda'
+    }, [])
+
   return (
-    <div className="new-page">
-      <aside className="new-filter">
-        <h2>Filtrar por <span className="new-filter-clear">QUITAR FILTRO</span></h2>
-        <div className="new-filter-group">
+    <div className="style-page">
+      <aside className="style-filter">
+        <h2>Filtrar por <span className="style-filter-clear">QUITAR FILTRO</span></h2>
+        <div className="style-filter-group">
           <h3>Talla</h3>
-          <div className="new-filter-sizes">
+          <div className="style-filter-sizes">
             {['XS', 'S', 'M', 'L', 'XL'].map(size => (
-              <button key={size} className="new-size-btn">{size}</button>
+              <button key={size} className="style-size-btn">{size}</button>
             ))}
           </div>
         </div>
-        <div className="new-filter-group">
-          <h3>Precio</h3>
-          <div className="new-filter-price">
-            <input type="range" min="29990" max="139900" />
-            <div className="new-filter-price-labels">
-              <span>$ 29.990</span>
-              <span>$139.900</span>
+        <div className="style-filter-group">
+          <h3>Rango de precio</h3>
+          <div className="style-filter-price">
+            <input type="range" min={minPrice} max={maxPrice} />
+            <div className="style-filter-price-labels">
+              <span>${minPrice.toLocaleString()}</span>
+              <span>${maxPrice.toLocaleString()}</span>
             </div>
           </div>
         </div>
-        <div className="new-filter-group">
+        <div className="style-filter-group">
           <h3>Color</h3>
-          <div className="new-filter-colors">
+          <div className="style-filter-colors">
             {['#b8a89a', '#a05c3b', '#d16c5b', '#4d6c6a', '#222', '#fff'].map(color => (
               <span
                 key={color}
-                className="new-color-box"
+                className="style-color-box"
                 style={{
                   background: color,
                   border: color === '#fff' ? '1px solid #222' : 'none'
@@ -77,25 +130,63 @@ function New() {
           </div>
         </div>
       </aside>
-      <main className="new-main">
-        <div className="new-sort">
-          <span className="new-sort-title">Ordenar por</span>
-          <span className="new-sort-select">Relevancia &gt;</span>
+      <main className="style-main">
+        <div className="style-sort">
+            <div className="style-sort-select-wrapper">
+            <select
+              className="style-sort-select"
+              value={sortOption}
+              onChange={e => setSortOption(e.target.value)}
+            >
+              <option value="Relevancia">Relevancia</option>
+              <option value="PrecioMayorMenor">Precio: mayor a menor</option>
+              <option value="PrecioMenorMayor">Precio: menor a mayor</option>
+              <option value="Descuento">Descuento</option>
+            </select>
+          </div>
         </div>
-        <div className="new-products">
-          {products.map((p, idx) => (
-            <div key={idx} className="new-card">
-              <div className="new-card-heart">♡</div>
-              <img src={p.img} alt={p.name} className="new-card-img" />
-              <div className="new-card-name">{p.name}</div>
-              <div className="new-card-prices">
+        <div className="style-products">
+          {sortedProducts.map((p, idx) => (
+            <div key={idx} className="style-card">
+              <div
+                className="style-card-heart"
+                onClick={() => handleLike(idx)}
+                style={{ cursor: 'pointer', color: likes[idx] ? '#e57373' : '#222' }}
+              >
+                {likes[idx] ? '♥' : '♡'}
+              </div>
+              <div className="style-card-img-wrapper">
+                <img
+                  src={p.images[imgIndexes[idx]]}
+                  alt={p.name}
+                  className="style-card-img"
+                />
+                <button
+                  className="style-card-arrow style-card-arrow-left"
+                  onClick={() => handlePrevImg(idx)}
+                  aria-label="Imagen anterior"
+                  type="button"
+                >
+                  ‹
+                </button>
+                <button
+                  className="style-card-arrow style-card-arrow-right"
+                  onClick={() => handleNextImg(idx)}
+                  aria-label="Imagen siguiente"
+                  type="button"
+                >
+                  ›
+                </button>
+              </div>
+              <div className="style-card-name">{p.name}</div>
+              <div className="style-card-prices">
                 <span
-                  className={`new-card-price${!p.oldPrice ? ' new-card-price-black' : ''}`}
+                  className={`style-card-price${!p.oldPrice ? ' style-card-price-black' : ''}`}
                 >
                   ${p.price.toLocaleString()}
                 </span>
                 {p.oldPrice && (
-                  <span className="new-card-oldprice">${p.oldPrice.toLocaleString()}</span>
+                  <span className="style-card-oldprice">${p.oldPrice.toLocaleString()}</span>
                 )}
               </div>
             </div>

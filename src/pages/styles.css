@@ -1,4 +1,4 @@
-.onepiece-page {
+.style-page {
   display: flex;
   gap: 32px;
   padding: 32px 24px;
@@ -12,41 +12,40 @@
   box-sizing: border-box;
 }
 
-.onepiece-filter {
+.style-filter {
   min-width: 180px;
   max-width: 200px;
   padding-right: 24px;
 }
 
-.onepiece-filter h2 {
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-}
-
-.onepiece-filter-group h3 {
+.style-filter h2 {
   font-size: 1rem;
-  margin-bottom: 8px;
+  margin-bottom: 30px;
 }
 
-.onepiece-filter-clear {
+.style-filter-group h3 {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.style-filter-clear {
   font-size: 0.9rem;
   margin-left: 8px;
   text-decoration: underline;
   cursor: pointer;
 }
 
-.onepiece-filter-group {
+.style-filter-group {
   margin-bottom: 14px;
 }
 
-/* CAMBIAR */
-.onepiece-filter-sizes {
+.style-filter-sizes {
   display: flex;
-  gap: 6px;
-  margin-top: 4px;
+  gap: 4px;
+  margin-top: 8px;
 }
 
-.onepiece-size-btn {
+.style-size-btn {
   border: 2px solid #222;
   background: #fff;
   color: #222;
@@ -56,60 +55,69 @@
   cursor: pointer;
 }
 
-.onepiece-filter-price {
+.style-filter-price {
   margin-top: 8px;
 }
 
-.onepiece-filter-price-labels {
+.style-filter-price-labels {
   display: flex;
   justify-content: space-between;
   font-size: 0.95rem;
   margin-top: 4px;
 }
 
-.onepiece-filter-colors {
+.style-filter-colors {
   display: flex;
   gap: 6px;
   margin-top: 4px;
 }
 
-.onepiece-color-box {
+.style-color-box {
   width: 24px;
   height: 24px;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.onepiece-main {
+.style-main {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.onepiece-sort {
+.style-sort {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 28px;
+  margin-right: 54px;
+  justify-content: flex-end;
 }
 
-.onepiece-sort-title {
-  font-size: 1.3rem;
-  font-weight: bold;
+.style-sort-select {
+  font-size: 0.95rem;
+  padding: 6px 10px 6px 12px;
+  border: 1px solid #222;
+  border-radius: 10px;
+  background: #fff;
+  color: #222;
+  cursor: pointer;
+  appearance: none;
+  outline: none;
+  font-family: inherit;
+  font-weight: 350;
+  transition: border 0.2s;
+  
 }
 
-.onepiece-sort-select {
-  font-size: 1.1rem;
-  margin-left: 8px;
-}
-
-.onepiece-products {
+.style-products {
   display: flex;
   gap: 32px;
   flex-wrap: wrap;
 }
 
-.onepiece-card {
+.style-card {
   box-shadow: 0 2px 8px #eee;
   border-radius: 8px;
   overflow: hidden;
@@ -123,10 +131,10 @@
   margin-bottom: 32px;
   transition: box-shadow 0.2s;
 }
-.onepiece-card:hover {
+.style-card:hover {
   box-shadow: 0 4px 24px rgba(229,115,115,0.15);
 }
-.onepiece-card-heart {
+.style-card-heart {
   position: absolute;
   top: 5px;
   right: 10px;
@@ -137,34 +145,57 @@
   padding: 2px 6px;
 }
 
-.onepiece-card-img {
+.style-card-img {
   width: 250px;
   height: 350px;
   object-fit: cover;
   border-radius: 8px 8px 0 0;
 }
 
-.onepiece-card-name {
+.style-card-name {
   font-size: 1.2rem;
   margin: 16px 0 6px 18px;
   font-weight: 500;
   color: #222;
 }
+.style-card-img-wrapper {
+  position: relative;
+}
 
-.onepiece-card-prices {
+.style-card-prices {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-left: 18px;
   margin-bottom: 16px;
 }
-.onepiece-card-price {
+.style-card-price {
   color: red;
   font-size: 1.2rem;
 }
-
-.onepiece-card-oldprice {
+.style-card-oldprice {
   text-decoration: line-through;
   color: #888;
   font-size: 1.1rem;
+}
+.style-card-price-black {
+  color: #222 !important;
+}
+.style-card-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  font-size: 2rem;
+  color: black;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0;
+  background: none;
+}
+.style-card-arrow-left {
+  left: 10px;
+}
+.style-card-arrow-right {
+  right: 10px;
 }

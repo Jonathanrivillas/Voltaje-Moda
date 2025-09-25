@@ -1,8 +1,31 @@
 import './Navbar.css'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 function Navbar() {
   const navigate = useNavigate()
+  const [search, setSearch] = useState('')
+
+  const handleSearch = e => {
+    e.preventDefault()
+    const value = search.trim().toLowerCase()
+    if (value === 'vestidos' || value === 'vestido') {
+      navigate('/dresses')
+    }
+    if (value === 'blusas' || value === 'blusa') {
+      navigate('/top')
+    }
+    if (value === 'pantalones' || value === 'pantalon') {
+      navigate('/lower')
+    }
+    if (value === 'enterizos' || value === 'enterizo') {
+      navigate('/onepiece')
+    }
+    if (value === 'conjuntos' || value === 'conjunto') {
+      navigate('/sets')
+    }
+    setSearch('')
+  }
 
   return (
     <nav className="navbar-container">
@@ -28,12 +51,14 @@ function Navbar() {
         </li>
       </ul>
       <div className="navbar-actions">
-        <form className="navbar-search">
+        <form className="navbar-search" onSubmit={handleSearch}>
           <span className="navbar-search-icon">🔍</span>
           <input
             type="text"
             placeholder="Buscar"
             className="navbar-search-input"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
           />
         </form>
         <button>🚚</button>

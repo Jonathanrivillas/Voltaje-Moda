@@ -4,7 +4,6 @@ import './Hero.css'
 const images = [
   'public/images/ConjuntoSombrero.jpeg',
   'public/images/PortadaTres.jpeg',
-  'public/images/Vestido-Corto-Mangas.jpeg'
 ]
 
 function Hero() {

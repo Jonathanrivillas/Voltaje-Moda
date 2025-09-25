@@ -21,6 +21,7 @@
     font-size: 3rem;
     -webkit-text-stroke: 1px #e57373;
     font-family:'Poppins', sans-serif;
+    cursor: pointer;
   }
   .footer-columns {
     display: flex;

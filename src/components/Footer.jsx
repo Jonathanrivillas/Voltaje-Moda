@@ -8,7 +8,7 @@ function Footer() {
     <footer className="footer-section">
       <div className="footer-main">
         <div className="footer-logo">
-          <span>VOLTAJE</span>
+          <span onClick={() => navigate('/')}>VOLTAJE</span>
         </div>
         <div className="footer-columns">
           <div>
@@ -90,9 +90,9 @@ function Footer() {
             </ul>
             <h4>Síguenos</h4>
             <div className="footer-social">
-              <a href="#"><img src="/icons/whatsapp.svg" alt="Whatsapp" /></a>
-              <a href="#"><img src="/icons/instagram.svg" alt="Instagram" /></a>
-              <a href="#"><img src="/icons/tiktok.svg" alt="TikTok" /></a>
+              <a target="_blank" href="#"><img src="public/images/icons/whatsapp.jpeg" alt="Whatsapp" /></a>
+              <a target="_blank" href="https://www.instagram.com/voltajemoda/"><img src="public/images/icons/instagram.jpeg" alt="Instagram" /></a>
+              <a target="_blank" href="https://www.tiktok.com/@voltaje.moda?is_from_webapp=1&sender_device=pc"><img src="public/images/icons/tiktok.jpg" alt="TikTok" /></a>
             </div>
           </div>
         </div>

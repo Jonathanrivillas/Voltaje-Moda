@@ -30,10 +30,15 @@
   overflow: hidden;
 
 }
+.featured-img-wrapper {
+  position: relative;
+}
+
 .featured-img {
-  width: 100%;
+  width: 250px;
   height: 350px;
   object-fit: cover;
+  border-radius: 8px 8px 0 0;
 }
 .featured-discount {
   position: absolute;
@@ -78,4 +83,24 @@
   border: none;
   cursor: pointer;
   color: #222;
+}
+.featured-img-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  font-size: 2rem;
+  color: black;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0;
+  background: none;
+}
+
+.featured-img-arrow-left {
+  left: 8px;
+}
+
+.featured-img-arrow-right {
+  right: 8px;
 }
