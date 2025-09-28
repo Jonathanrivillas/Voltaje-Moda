@@ -1,10 +1,12 @@
 import './Navbar.css'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useAuth } from '../context/AuthContext'
 
 function Navbar() {
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
+  const { user, logout, isAuthenticated } = useAuth()
 
   const handleSearch = e => {
     e.preventDefault()
@@ -24,7 +26,23 @@ function Navbar() {
     if (value === 'conjuntos' || value === 'conjunto') {
       navigate('/sets')
     }
+    if (value === 'productos') {
+      navigate('/productos')
+    }
     setSearch('')
+  }
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+  }
+
+  const handleProfileClick = () => {
+    if (isAuthenticated) {
+      navigate('/perfil')
+    } else {
+      navigate('/login')
+    }
   }
 
   return (
@@ -49,6 +67,14 @@ function Navbar() {
         <li>
           <button className="navbar-btn" onClick={() => navigate('/onepiece')}>Enterizos</button>
         </li>
+        <li>
+          <button 
+            className="navbar-btn" 
+            onClick={() => navigate('/productos')}
+          >
+            Productos
+          </button>
+        </li>
       </ul>
       <div className="navbar-actions">
         <form className="navbar-search" onSubmit={handleSearch}>
@@ -62,7 +88,30 @@ function Navbar() {
           />
         </form>
         <button>🚚</button>
-        <button>👤</button>
+        
+        {/* Botón de perfil con estado de autenticación */}
+        <button onClick={handleProfileClick} title={isAuthenticated ? 'Mi Perfil' : 'Iniciar Sesión'}>
+          {isAuthenticated ? `👤 ${user?.nombre}` : '👤'}
+        </button>
+        
+        {/* Menú desplegable para usuario autenticado */}
+        {isAuthenticated && (
+          <div className="navbar-user-menu">
+            <button 
+              onClick={() => navigate('/perfil')}
+              className="navbar-user-btn"
+            >
+              Mi Cuenta
+            </button>
+            <button 
+              onClick={handleLogout}
+              className="navbar-user-btn logout"
+            >
+              Cerrar Sesión
+            </button>
+          </div>
+        )}
+        
         <button>🛒</button>
       </div>
     </nav>
