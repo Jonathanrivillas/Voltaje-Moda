@@ -12,16 +12,6 @@ function Footer() {
         </div>
         <div className="footer-columns">
           <div>
-            <h4>Sobre nosotros</h4>
-            <ul>
-              <li>Quiénes somos</li>
-              <li>Línea ética</li>
-              <li>Nuestras tiendas</li>
-              <li>Trabaja con nosotros</li>
-              <li>Mapa del sitio</li>
-            </ul>
-          </div>
-          <div>
             <h4>Compra por categoría</h4>
             <ul className="footer-menu">
               <li
