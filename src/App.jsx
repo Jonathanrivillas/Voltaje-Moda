@@ -1,5 +1,6 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/Navbar'
 import Banner from './components/Banner'
 import Hero from './components/Hero'
@@ -12,9 +13,10 @@ import Lower from './pages/Lower'
 import Sets from './pages/Sets'
 import Dresses from './pages/Dresses'
 import OnePiece from './pages/OnePiece'
+import AdminPanel from './components/AdminPanel'
 
-
-function App() {
+// Componente separado para el contenido que usa useAuth
+function AppContent() {
   return (
     <>
       <Banner />
@@ -36,9 +38,18 @@ function App() {
         <Route path="/sets" element={<Sets />} />
         <Route path="/dresses" element={<Dresses />} />
         <Route path="/onepiece" element={<OnePiece />} />
+        <Route path="/admin" element={<AdminPanel />} />
       </Routes>
       <Footer />
     </>
+  )
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   )
 }
 

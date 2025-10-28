@@ -98,3 +98,23 @@
 .navbar-btn:focus {
   outline: none;
 }
+
+.admin-btn {
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24) !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #ffeaea;
+}

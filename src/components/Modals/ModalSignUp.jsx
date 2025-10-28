@@ -5,73 +5,93 @@ function ModalSignUp({ onClose, onBackToLogin }) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   
-  // Agregar estos estados para los campos del formulario
   const [formData, setFormData] = useState({
     nombre: '',
+    apellido: '',
     email: '',
+    telefono: '',
     password: '',
     confirmPassword: ''
   })
+  
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
-  // Función para manejar cambios en los inputs
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
+    // Limpiar error cuando el usuario escribe
+    if (error) setError('')
   }
 
-  // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
     setSuccess('')
-    
-    // Validar que las contraseñas coincidan
+
+    // Validaciones frontend
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden')
       return
     }
-    
+
+    if (formData.password.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres')
+      return
+    }
+
     setLoading(true)
-    
+
     try {
-      const response = await fetch('http://localhost:3000/api/auth/register', {
+      console.log('📤 Enviando datos al backend:', {
+        nombre: formData.nombre,
+        apellido: formData.apellido,
+        email: formData.email,
+        contraseña: formData.password,
+        telefono: formData.telefono || undefined
+      })
+
+      const response = await fetch('http://localhost:3000/api/auth/registrar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        mode: 'cors',
+        credentials: 'omit',
         body: JSON.stringify({
           nombre: formData.nombre,
+          apellido: formData.apellido,
           email: formData.email,
-          password: formData.password
+          contraseña: formData.password,
+          telefono: formData.telefono || undefined
         })
       })
-      
+
       const data = await response.json()
-      
+      console.log('📥 Respuesta del backend:', data)
+
       if (response.ok) {
         setSuccess('Usuario registrado exitosamente!')
-        // Limpiar formulario
         setFormData({
           nombre: '',
+          apellido: '',
           email: '',
+          telefono: '',
           password: '',
           confirmPassword: ''
         })
-        // Opcional: cerrar modal después de unos segundos
-        setTimeout(() => {
-          onClose()
-        }, 2000)
+        setTimeout(() => onClose(), 2000)
       } else {
-        setError(data.message || 'Error al registrar usuario')
+        // Mostrar el error específico del backend
+        const errorMessage = data.error || data.details?.[0] || data.message || 'Error al registrar usuario'
+        setError(errorMessage)
       }
     } catch (error) {
-      console.error('Error:', error)
-      setError('Error de conexión con el servidor')
+      console.error('❌ Error de conexión:', error)
+      setError('Error de conexión con el servidor. Verifica que el backend esté corriendo.')
     } finally {
       setLoading(false)
     }
@@ -82,29 +102,57 @@ function ModalSignUp({ onClose, onBackToLogin }) {
       <div className="modal-login-box">
         <button className="modal-login-close" onClick={onClose}>×</button>
         <h2>Crear cuenta</h2>
-        
-        {/* Mostrar mensajes de error o éxito */}
-        {error && <div style={{color: 'red', marginBottom: '10px'}}>{error}</div>}
-        {success && <div style={{color: 'green', marginBottom: '10px'}}>{success}</div>}
-        
+
+        {error && (
+          <div className="modal-login-error">
+            ⚠️ {error}
+          </div>
+        )}
+        {success && (
+          <div className="modal-login-success">
+            ✅ {success}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             name="nombre"
             value={formData.nombre}
             onChange={handleChange}
-            placeholder="Nombre completo"
+            placeholder="Nombre"
             className="modal-login-input"
             required
+            disabled={loading}
+          />
+          <input
+            type="text"
+            name="apellido"
+            value={formData.apellido}
+            onChange={handleChange}
+            placeholder="Apellidos"
+            className="modal-login-input"
+            required
+            disabled={loading}
           />
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="Ej.: ejemplo@mail.com"
+            placeholder="Ejemplo@mail.com"
             className="modal-login-input"
             required
+            disabled={loading}
+          />
+          <input
+            type="text"
+            name="telefono"
+            value={formData.telefono}
+            onChange={handleChange}
+            placeholder="Teléfono (opcional)"
+            className="modal-login-input"
+            disabled={loading}
           />
           <div className="modal-login-password-wrapper">
             <input
@@ -112,16 +160,19 @@ function ModalSignUp({ onClose, onBackToLogin }) {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Cree una contraseña"
+              placeholder="Cree una contraseña (mínimo 6 caracteres)"
               className="modal-login-input"
               required
+              disabled={loading}
+              minLength="6"
             />
-            <span
-              className="modal-login-eye"
+            <span 
+              className="modal-login-eye" 
               onClick={() => setShowPassword(v => !v)}
-              tabIndex={0}
-              role="button"
-            >👁️</span>
+              style={{cursor: loading ? 'not-allowed' : 'pointer'}}
+            >
+              👁️
+            </span>
           </div>
           <div className="modal-login-password-wrapper">
             <input
@@ -132,29 +183,34 @@ function ModalSignUp({ onClose, onBackToLogin }) {
               placeholder="Confirme su contraseña"
               className="modal-login-input"
               required
+              disabled={loading}
             />
-            <span
-              className="modal-login-eye"
+            <span 
+              className="modal-login-eye" 
               onClick={() => setShowConfirm(v => !v)}
-              tabIndex={0}
-              role="button"
-            >👁️</span>
+              style={{cursor: loading ? 'not-allowed' : 'pointer'}}
+            >
+              👁️
+            </span>
           </div>
+
           <hr className="modal-login-divider" />
           <button 
             className="modal-login-btn" 
-            type="submit"
+            type="submit" 
             disabled={loading}
+            style={{opacity: loading ? 0.7 : 1}}
           >
             {loading ? 'Registrando...' : 'Registrarse'}
           </button>
         </form>
+
         <div className="modal-login-register">
           ¿Ya tiene una cuenta?{' '}
-          <span
-            className="modal-login-link"
-            onClick={onBackToLogin}
-            style={{ cursor: 'pointer' }}
+          <span 
+            className="modal-login-link" 
+            onClick={loading ? undefined : onBackToLogin}
+            style={{cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.5 : 1}}
           >
             Iniciar sesión
           </span>

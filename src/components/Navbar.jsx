@@ -1,6 +1,7 @@
 import './Navbar.css'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useAuth } from '../context/AuthContext'
 import ModalLogin from '../components/Modals/ModalLogin'
 import ModalCart from '../components/Modals/ModalCart'
 
@@ -9,6 +10,7 @@ function Navbar() {
   const [search, setSearch] = useState('')
   const [showLogin, setShowLogin] = useState(false)
   const [showCart, setShowCart] = useState(false)
+  const { user, logout, isAuthenticated, loading } = useAuth()
 
   const handleSearch = e => {
     e.preventDefault()
@@ -28,7 +30,36 @@ function Navbar() {
     if (value === 'conjuntos' || value === 'conjunto') {
       navigate('/sets')
     }
+    if (value === 'productos') {
+      navigate('/productos')
+    }
+    if (value === 'admin') {
+      navigate('/admin')
+    }
     setSearch('')
+  }
+
+  const handleProfileClick = () => {
+    if (isAuthenticated) {
+      navigate('/perfil')
+    } else {
+      setShowLogin(true)
+    }
+  }
+
+  const handleLogout = () => {
+    logout()
+    setShowLogin(false)
+  }
+
+  // Mostrar loading mientras se verifica la autenticación
+  if (loading) {
+    return (
+      <nav className="navbar-container">
+        <span className="navbar-logo" onClick={() => navigate('/')}>VOLTAJE</span>
+        <div>Cargando...</div>
+      </nav>
+    )
   }
 
   return (
@@ -54,6 +85,28 @@ function Navbar() {
           <li>
             <button className="navbar-btn" onClick={() => navigate('/onepiece')}>Enterizos</button>
           </li>
+          
+          {/* Botón de Productos (siempre visible) */}
+          <li>
+            <button 
+              className="navbar-btn" 
+              onClick={() => navigate('/productos')}
+            >
+              Productos
+            </button>
+          </li>
+          
+          {/* Botón de Admin solo para admin@gmail.com */}
+          {isAuthenticated && user?.email === 'admin@gmail.com' && (
+            <li>
+              <button 
+                className="navbar-btn admin-btn" 
+                onClick={() => navigate('/admin')}
+              >
+                Admin
+              </button>
+            </li>
+          )}
         </ul>
         <div className="navbar-actions">
           <form className="navbar-search" onSubmit={handleSearch}>
@@ -66,12 +119,39 @@ function Navbar() {
               onChange={e => setSearch(e.target.value)}
             />
           </form>
-          <button type="button" onClick={() => setShowLogin(true)}>👤</button>
+          <button>🚚</button>
+          
+          {/* Botón de perfil inteligente */}
+          <button 
+            type="button" 
+            onClick={handleProfileClick}
+            title={isAuthenticated ? 'Mi Perfil' : 'Iniciar Sesión'}
+          >
+            {isAuthenticated ? `👤 ${user?.nombre}` : '👤'}
+          </button>
+          
+          {/* Botón de logout si está autenticado */}
+          {isAuthenticated && (
+            <button 
+              type="button"
+              onClick={handleLogout}
+              title="Cerrar Sesión"
+              className="logout-btn"
+            >
+              🚪
+            </button>
+          )}
+          
           <button type="button" onClick={() => setShowCart(true)}>🛒</button>
         </div>
       </nav>
       
-      {showLogin && <ModalLogin onClose={() => setShowLogin(false)} />}
+      {showLogin && (
+        <ModalLogin 
+          onClose={() => setShowLogin(false)} 
+          onLoginSuccess={() => setShowLogin(false)}
+        />
+      )}
       {showCart && <ModalCart onClose={() => setShowCart(false)} />}
     </>
   )
