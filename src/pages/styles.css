@@ -199,3 +199,61 @@
 .style-card-arrow-right {
   right: 10px;
 }
+
+/* Botón agregar al carrito */
+.style-card-add-to-cart,
+.style-card-add-btn {
+  width: 100%;
+  padding: 10px 16px;
+  margin-top: 12px;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.style-card-add-to-cart:hover,
+.style-card-add-btn:hover {
+  background: #444;
+}
+
+.style-card-add-to-cart:active,
+.style-card-add-btn:active {
+  transform: scale(0.98);
+}
+
+/* Toast notification */
+.toast-notification {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2e7d32;
+  color: #fff;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10000;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 32px;
+    opacity: 1;
+  }
+}

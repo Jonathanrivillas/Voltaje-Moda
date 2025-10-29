@@ -7,7 +7,6 @@ import Hero from './components/Hero'
 import FeaturedOffers from './components/FeaturedOffers'
 import Newsletter from './components/Newsletter'
 import Footer from './components/Footer'
-import New from './pages/New'
 import Top from './pages/Top'
 import Lower from './pages/Lower'
 import Sets from './pages/Sets'
@@ -32,7 +31,6 @@ function AppContent() {
             </>
           }
         />
-        <Route path="/new" element={<New />} />
         <Route path="/top" element={<Top />} />
         <Route path="/lower" element={<Lower />} />
         <Route path="/sets" element={<Sets />} />

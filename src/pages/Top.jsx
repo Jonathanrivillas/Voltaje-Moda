@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { carritoService } from '../services/carritoService'
 import './styles.css'
 
 const products = [
   {
+    id: 401,
     images: [
       'public/images/BlusaPuntos.jpeg',
       'public/images/BlusaPuntos-2.jpeg',
@@ -13,6 +15,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 402,
     images: [
       'public/images/Blusa-Larga-Flores.jpeg',
       'public/images/Blusa-Larga-Flores-2.jpeg',
@@ -23,6 +26,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 403,
     images: [
       'public/images/BlusaVaca.jpeg',
       'public/images/BlusaVaca-2.jpeg',
@@ -33,6 +37,7 @@ const products = [
     oldPrice: 49990,
   },
   {
+    id: 404,
     images: [
       'public/images/BlusaResortada.jpeg',
       'public/images/BlusaResortada-2.jpeg',
@@ -43,6 +48,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 405,
     images: [
       'public/images/CamisaRayas.jpeg',
       'public/images/CamisaRayas-2.jpeg', 
@@ -52,6 +58,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 406,
     images: [
       'public/images/BlusaCorta.jpeg',
       'public/images/BlusaCorta-2.jpeg',
@@ -62,6 +69,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 407,
     images: [
       'public/images/Blusa-Corta-Pepitas.jpeg',
       'public/images/Blusa-Corta-Pepitas-2.jpeg',
@@ -72,6 +80,7 @@ const products = [
     oldPrice: 49900,
   },
   {
+    id: 408,
     images: [
       'public/images/TopStraple.jpeg',
       'public/images/TopStraple-2.jpeg',
@@ -81,6 +90,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 409,
     images: [
       'public/images/BlusaOversize.jpeg',
       'public/images/BlusaOversize-2.jpeg',
@@ -91,6 +101,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 410,
     images: [
       'public/images/Blusa-Moño-Polo.jpeg',
       'public/images/Blusa-Moño-Polo-2.jpeg',
@@ -101,6 +112,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 411,
     images: [
       'public/images/Blusa-Bandeja-Rayas.jpeg',
       'public/images/Blusa-Bandeja-Rayas-2.jpeg',
@@ -111,6 +123,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 412,
     images: [
       'public/images/Blusa-Straple-Moños.jpeg',
     ],
@@ -119,6 +132,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 413,
     images: [
       'public/images/Blusa-Corta-Moños.jpeg',
       'public/images/Blusa-Corta-Moños-2.jpeg',
@@ -129,6 +143,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 414,
     images: [
       'public/images/Blusa-Cisa-Puntos.jpeg',
       'public/images/Blusa-Cisa-Puntos-2.jpeg',
@@ -181,6 +196,19 @@ function Top() {
           : imgIdx
       )
     )
+  }
+
+  const handleAddToCart = async (producto) => {
+    try {
+      await carritoService.addToCart({
+        id: producto.id,
+        nombre: producto.name,
+        precio: producto.price,
+        imagen: producto.images[0]
+      })
+    } catch (error) {
+      console.error('Error agregando al carrito:', error)
+    }
   }
 
   const prices = products.map(p => p.price)
@@ -284,6 +312,12 @@ function Top() {
                   <span className="style-card-oldprice">${p.oldPrice.toLocaleString()}</span>
                 )}
               </div>
+              <button 
+                className="style-card-add-btn"
+                onClick={() => handleAddToCart(p)}
+              >
+                Agregar al carrito 🛒
+              </button>
             </div>
           ))}
         </div>

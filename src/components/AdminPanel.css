@@ -15,7 +15,7 @@
   align-items: flex-start;
   margin-bottom: 2rem;
   padding: 2rem;
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  background: black;
   border-radius: 12px;
   color: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -381,7 +381,7 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  background: black;
   color: white;
 }
 

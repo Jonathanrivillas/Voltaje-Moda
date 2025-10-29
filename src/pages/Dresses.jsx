@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { carritoService } from '../services/carritoService'
 import './styles.css'
 
 const products = [
   {
+    id: 1,
     images: [
       'public/images/Vestido-Corto-Cinturon.jpeg',
       'public/images/Vestido-Corto-Cinturon-2.jpeg',
@@ -13,6 +15,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 2,
     images: [
       'public/images/VestidoCinturon.jpeg',
       'public/images/VestidoCinturon-2.jpeg',
@@ -23,6 +26,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 3,
     images: [
       'public/images/Vestido-Largo-Abierto.jpeg',
       'public/images/Vestido-Largo-Abierto-2.jpeg',
@@ -33,6 +37,7 @@ const products = [
     oldPrice: 49990,
   },
   {
+    id: 4,
     images: [
       'public/images/Vestido-Corto-Mangas.jpeg'
     ],
@@ -41,6 +46,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 5,
     images: [
       'public/images/VestidoMangas.jpeg',
       'public/images/VestidoMangas-2.jpeg'
@@ -50,6 +56,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 6,
     images: [
       'public/images/VestidoFloral.jpeg',
       'public/images/VestidoFloral-2.jpeg',
@@ -105,6 +112,19 @@ function Dresses() {
           : imgIdx
       )
     )
+  }
+
+  const handleAddToCart = async (producto) => {
+    try {
+      await carritoService.addToCart({
+        id: producto.id,
+        nombre: producto.name,
+        precio: producto.price,
+        imagen: producto.images[0]
+      })
+    } catch (error) {
+      console.error('Error agregando al carrito:', error)
+    }
   }
   
 
@@ -209,6 +229,12 @@ function Dresses() {
                   <span className="style-card-oldprice">${p.oldPrice.toLocaleString()}</span>
                 )}
               </div>
+              <button 
+                className="style-card-add-btn"
+                onClick={() => handleAddToCart(p)}
+              >
+                Agregar al carrito 🛒
+              </button>
             </div>
           ))}
         </div>

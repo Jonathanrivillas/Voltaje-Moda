@@ -73,14 +73,11 @@ const AdminPanel = () => {
     } catch (error) {
       console.error('Error fetching categories:', error)
       setCategorias([
-        { id: 4, nombre: 'Tops/Blusas' },
-        { id: 5, nombre: 'Jeans/Pantalones' },
-        { id: 6, nombre: 'Vestidos' },
-        { id: 7, nombre: 'Enterizos' },
-        { id: 8, nombre: 'Conjuntos' },
-        { id: 9, nombre: 'Faldas' },
-        { id: 10, nombre: 'Shorts' },
-        { id: 11, nombre: 'Abrigos/Chaquetas' }
+        { id: 1, nombre: 'Tops/Blusas' },
+        { id: 2, nombre: 'Pantalones' },
+        { id: 3, nombre: 'Vestidos' },
+        { id: 4, nombre: 'Enterizos' },
+        { id: 5, nombre: 'Conjuntos' },
       ])
     }
   }

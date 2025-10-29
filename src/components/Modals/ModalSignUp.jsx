@@ -4,7 +4,7 @@ import './ModalLogin.css'
 function ModalSignUp({ onClose, onBackToLogin }) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  
+
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -13,7 +13,7 @@ function ModalSignUp({ onClose, onBackToLogin }) {
     password: '',
     confirmPassword: ''
   })
-  
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -54,19 +54,15 @@ function ModalSignUp({ onClose, onBackToLogin }) {
         telefono: formData.telefono || undefined
       })
 
-      const response = await fetch('http://localhost:3000/api/auth/registrar', {
+      const response = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        mode: 'cors',
-        credentials: 'omit',
         body: JSON.stringify({
           nombre: formData.nombre,
-          apellido: formData.apellido,
           email: formData.email,
-          contraseña: formData.password,
-          telefono: formData.telefono || undefined
+          password: formData.password
         })
       })
 
@@ -166,10 +162,10 @@ function ModalSignUp({ onClose, onBackToLogin }) {
               disabled={loading}
               minLength="6"
             />
-            <span 
-              className="modal-login-eye" 
+            <span
+              className="modal-login-eye"
               onClick={() => setShowPassword(v => !v)}
-              style={{cursor: loading ? 'not-allowed' : 'pointer'}}
+              style={{ cursor: loading ? 'not-allowed' : 'pointer' }}
             >
               👁️
             </span>
@@ -185,21 +181,21 @@ function ModalSignUp({ onClose, onBackToLogin }) {
               required
               disabled={loading}
             />
-            <span 
-              className="modal-login-eye" 
+            <span
+              className="modal-login-eye"
               onClick={() => setShowConfirm(v => !v)}
-              style={{cursor: loading ? 'not-allowed' : 'pointer'}}
+              style={{ cursor: loading ? 'not-allowed' : 'pointer' }}
             >
               👁️
             </span>
           </div>
 
           <hr className="modal-login-divider" />
-          <button 
-            className="modal-login-btn" 
-            type="submit" 
+          <button
+            className="modal-login-btn"
+            type="submit"
             disabled={loading}
-            style={{opacity: loading ? 0.7 : 1}}
+            style={{ opacity: loading ? 0.7 : 1 }}
           >
             {loading ? 'Registrando...' : 'Registrarse'}
           </button>
@@ -207,10 +203,10 @@ function ModalSignUp({ onClose, onBackToLogin }) {
 
         <div className="modal-login-register">
           ¿Ya tiene una cuenta?{' '}
-          <span 
-            className="modal-login-link" 
+          <span
+            className="modal-login-link"
             onClick={loading ? undefined : onBackToLogin}
-            style={{cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.5 : 1}}
+            style={{ cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.5 : 1 }}
           >
             Iniciar sesión
           </span>

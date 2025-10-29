@@ -17,15 +17,6 @@ function Footer() {
               <li
                 onClick={() => {
                   window.scrollTo({ top: 0, behavior: 'smooth' })
-                  navigate('/new')
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                Nuevo
-              </li>
-              <li
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: 'smooth' })
                   navigate('/top')
                 }}
                 style={{ cursor: 'pointer' }}

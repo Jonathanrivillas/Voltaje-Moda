@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { carritoService } from '../services/carritoService'
 import './styles.css'
 
 const products = [
   {
+    id: 201,
     images: [
       'public/images/EnterizoFloral.jpeg',
       'public/images/EnterizoFloral-2.jpeg',
@@ -14,6 +16,7 @@ const products = [
     liked: false,
   },
   {
+    id: 202,
     images: [
       'public/images/EnterizoCinturon.jpeg',
       'public/images/EnterizoCinturon-2.jpeg'
@@ -67,6 +70,19 @@ function OnePiece() {
           : imgIdx
       )
     )
+  }
+
+  const handleAddToCart = async (producto) => {
+    try {
+      await carritoService.addToCart({
+        id: producto.id,
+        nombre: producto.name,
+        precio: producto.price,
+        imagen: producto.images[0]
+      })
+    } catch (error) {
+      console.error('Error agregando al carrito:', error)
+    }
   }
 
   const prices = products.map(p => p.price)
@@ -170,6 +186,12 @@ function OnePiece() {
                   <span className="style-card-oldprice">${p.oldPrice.toLocaleString()}</span>
                 )}
               </div>
+              <button 
+                className="style-card-add-btn"
+                onClick={() => handleAddToCart(p)}
+              >
+                Agregar al carrito 🛒
+              </button>
             </div>
           ))}
         </div>

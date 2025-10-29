@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { carritoService } from '../services/carritoService'
 import './styles.css'
 
 const products = [
   {
+    id: 301,
     images: [
       'public/images/ConjuntoBandeja.jpeg',
       'public/images/ConjuntoBandeja-2.jpeg',
@@ -13,6 +15,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 302,
     images: [
       'public/images/Conjunto-Falda-Top.jpeg',
       'public/images/Conjunto-Falda-Top-2.jpeg',
@@ -23,6 +26,7 @@ const products = [
     oldPrice: 49990,
   },
   {
+    id: 303,
     images: [
       'public/images/Conjunto-Moños.jpeg',
       'public/images/Conjunto-Moños-2.jpeg',
@@ -33,6 +37,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 304,
     images: [
       'public/images/ConjuntoTop.jpeg',
       'public/images/ConjuntoTop-2.jpeg',
@@ -43,6 +48,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 305,
     images: [
       'public/images/ConjuntoShort.jpeg',
       'public/images/ConjuntoShort-2.jpeg',
@@ -53,6 +59,7 @@ const products = [
     oldPrice: null,
   },
   {
+    id: 306,
     images: [
       'public/images/ConjuntoMandalas.jpeg',
       'public/images/ConjuntoMandalas-3.jpeg',
@@ -64,6 +71,7 @@ const products = [
     liked: false,
   },
   {
+    id: 307,
     images: [
       'public/images/Conjunto-Blusa-Abierta.jpeg',
       'public/images/Conjunto-Blusa-Abierta-2.jpeg',
@@ -117,6 +125,19 @@ function Sets() {
           : imgIdx
       )
     )
+  }
+
+  const handleAddToCart = async (producto) => {
+    try {
+      await carritoService.addToCart({
+        id: producto.id,
+        nombre: producto.name,
+        precio: producto.price,
+        imagen: producto.images[0]
+      })
+    } catch (error) {
+      console.error('Error agregando al carrito:', error)
+    }
   }
 
   const prices = products.map(p => p.price)
@@ -220,6 +241,12 @@ function Sets() {
                   <span className="style-card-oldprice">${p.oldPrice.toLocaleString()}</span>
                 )}
               </div>
+              <button 
+                className="style-card-add-btn"
+                onClick={() => handleAddToCart(p)}
+              >
+                Agregar al carrito 🛒
+              </button>
             </div>
           ))}
         </div>

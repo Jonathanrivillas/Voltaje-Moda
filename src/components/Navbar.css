@@ -100,8 +100,7 @@
 }
 
 .admin-btn {
-  background: linear-gradient(45deg, #ff6b6b, #ee5a24) !important;
-  color: white !important;
+  color: black !important;
   font-weight: bold !important;
 }
 
@@ -117,4 +116,28 @@
 
 .logout-btn:hover {
   background-color: #ffeaea;
+}
+
+/* Cart button with counter */
+.cart-button {
+  position: relative;
+  background: none !important;
+}
+
+.cart-counter {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #e57373;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

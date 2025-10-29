@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { carritoService } from '../services/carritoService'
 import './FeaturedOffers.css'
 
 const offers = [
   {
+    id: 501,
     images: [
       'public/images/Blusa-Corta-Pepitas.jpeg',
       'public/images/Blusa-Corta-Pepitas-2.jpeg',
@@ -15,6 +17,7 @@ const offers = [
     oldPrice: 49990
   },
   {
+    id: 502,
     images: [
       'public/images/ConjuntoBandeja.jpeg',
       'public/images/ConjuntoBandeja-2.jpeg',
@@ -26,6 +29,7 @@ const offers = [
     oldPrice: 120000
   },
   {
+    id: 503,
     images: [
       'public/images/Vestido-Largo-Abierto.jpeg',
       'public/images/Vestido-Largo-Abierto-2.jpeg',
@@ -37,6 +41,7 @@ const offers = [
     oldPrice: 50000
   },
   {
+    id: 504,
     images: [
       'public/images/VestidoCinturon.jpeg',
       'public/images/VestidoCinturon-2.jpeg',
@@ -48,6 +53,7 @@ const offers = [
     oldPrice: 39900
   },
   {
+    id: 505,
     images: [
       'public/images/TopStraple.jpeg',
       'public/images/TopStraple-2.jpeg',
@@ -85,6 +91,19 @@ function FeaturedOffers() {
           : imgIdx
       )
     )
+  }
+
+  const handleAddToCart = async (producto) => {
+    try {
+      await carritoService.addToCart({
+        id: producto.id,
+        nombre: producto.name,
+        precio: producto.price,
+        imagen: producto.images[0]
+      })
+    } catch (error) {
+      console.error('Error agregando al carrito:', error)
+    }
   }
   
   return (
@@ -136,6 +155,12 @@ function FeaturedOffers() {
                 </span>
               </div>
             </div>
+            <button 
+              className="featured-add-btn"
+              onClick={() => handleAddToCart(offer)}
+            >
+              Agregar al carrito 🛒
+            </button>
           </div>
         ))}
         <button

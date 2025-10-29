@@ -1,6 +1,6 @@
 import './Navbar.css'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import ModalLogin from '../components/Modals/ModalLogin'
 import ModalCart from '../components/Modals/ModalCart'
@@ -10,7 +10,29 @@ function Navbar() {
   const [search, setSearch] = useState('')
   const [showLogin, setShowLogin] = useState(false)
   const [showCart, setShowCart] = useState(false)
+  const [cartCount, setCartCount] = useState(0)
   const { user, logout, isAuthenticated, loading } = useAuth()
+
+  // Actualizar contador del carrito
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('cart')) || []
+      const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0)
+      setCartCount(totalItems)
+    }
+
+    // Cargar contador inicial
+    updateCartCount()
+
+    // Escuchar cambios en el carrito
+    window.addEventListener('cartUpdated', updateCartCount)
+    window.addEventListener('storage', updateCartCount)
+
+    return () => {
+      window.removeEventListener('cartUpdated', updateCartCount)
+      window.removeEventListener('storage', updateCartCount)
+    }
+  }, [])
 
   const handleSearch = e => {
     e.preventDefault()
@@ -68,9 +90,6 @@ function Navbar() {
         <span className="navbar-logo" onClick={() => navigate('/')}>VOLTAJE</span>
         <ul className="navbar-menu">
           <li>
-            <button className="navbar-btn" onClick={() => navigate('/new')}>Nuevo</button>
-          </li>
-          <li>
             <button className="navbar-btn" onClick={() => navigate('/top')}>Superiores</button>
           </li>
           <li>
@@ -119,7 +138,6 @@ function Navbar() {
               onChange={e => setSearch(e.target.value)}
             />
           </form>
-          <button>🚚</button>
           
           {/* Botón de perfil inteligente */}
           <button 
@@ -142,7 +160,16 @@ function Navbar() {
             </button>
           )}
           
-          <button type="button" onClick={() => setShowCart(true)}>🛒</button>
+          <button 
+            type="button" 
+            onClick={() => setShowCart(true)}
+            className="cart-button"
+          >
+            🛒
+            {cartCount > 0 && (
+              <span className="cart-counter">{cartCount}</span>
+            )}
+          </button>
         </div>
       </nav>
       

@@ -1,18 +1,54 @@
 // components/ModalCart.jsx - VERSIÓN CORREGIDA
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { carritoService } from '../../services/carritoService'
 import './ModalCart.css'
 
 function ModalCart({ onClose }) {
   const navigate = useNavigate()
   const [cart, setCart] = useState([])
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [syncing, setSyncing] = useState(false)
+
+  // Verificar autenticación
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    setIsAuthenticated(!!token)
+  }, [])
 
   // Cargar carrito desde localStorage y escuchar cambios
   useEffect(() => {
-    const loadCart = () => {
+    const loadCart = async () => {
       const savedCart = JSON.parse(localStorage.getItem('cart')) || []
       console.log('🛒 Cargando carrito desde localStorage:', savedCart)
       setCart(savedCart)
+
+      // Si está autenticado, cargar desde backend
+      if (isAuthenticated) {
+        try {
+          setSyncing(true)
+          const response = await carritoService.obtenerCarrito()
+          if (response && response.carrito) {
+            // Convertir items del backend al formato del frontend
+            const backendCart = response.carrito.items.map(item => ({
+              id: item.producto_id,
+              nombre: item.nombre,
+              precio: item.precio_unitario,
+              imagen: item.imagen,
+              quantity: item.cantidad
+            }))
+            
+            setCart(backendCart)
+            localStorage.setItem('cart', JSON.stringify(backendCart))
+            console.log('✅ Carrito cargado desde backend')
+          }
+        } catch (error) {
+          console.error('❌ Error cargando carrito del backend:', error)
+          // Si falla, usar localStorage
+        } finally {
+          setSyncing(false)
+        }
+      }
     }
 
     // Cargar inicialmente
@@ -39,23 +75,28 @@ function ModalCart({ onClose }) {
       window.removeEventListener('cartUpdated', handleCartUpdate)
       window.removeEventListener('storage', handleStorageChange)
     }
-  }, [])
+  }, [isAuthenticated])
 
-  // Verificar qué hay en el localStorage cuando se abre el modal
-  useEffect(() => {
-    console.log('🔍 ModalCart montado, revisando localStorage...')
-    const currentCart = JSON.parse(localStorage.getItem('cart')) || []
-    console.log('📋 Contenido actual del carrito:', currentCart)
-  }, [])
-
-  const handleRemoveItem = (id) => {
+  // Eliminar item con sincronización backend
+  const handleRemoveItem = async (id) => {
     const updated = cart.filter(item => item.id !== id)
     setCart(updated)
     localStorage.setItem('cart', JSON.stringify(updated))
     window.dispatchEvent(new Event('cartUpdated'))
+
+    // Si está autenticado, eliminar del backend también
+    if (isAuthenticated) {
+      try {
+        await carritoService.eliminarProducto(id)
+        console.log('✅ Producto eliminado del backend')
+      } catch (error) {
+        console.error('❌ Error eliminando del backend:', error)
+      }
+    }
   }
 
-  const handleQuantityChange = (id, delta) => {
+  // Actualizar cantidad con sincronización backend
+  const handleQuantityChange = async (id, delta) => {
     const updated = cart.map(item =>
       item.id === id
         ? { ...item, quantity: Math.max(1, item.quantity + delta) }
@@ -64,6 +105,17 @@ function ModalCart({ onClose }) {
     setCart(updated)
     localStorage.setItem('cart', JSON.stringify(updated))
     window.dispatchEvent(new Event('cartUpdated'))
+
+    // Si está autenticado, actualizar en el backend también
+    if (isAuthenticated) {
+      try {
+        const item = updated.find(item => item.id === id)
+        await carritoService.actualizarCantidad(id, item.quantity)
+        console.log('✅ Cantidad actualizada en backend')
+      } catch (error) {
+        console.error('❌ Error actualizando cantidad en backend:', error)
+      }
+    }
   }
 
   const handleGoToCheckout = () => {
@@ -93,6 +145,33 @@ function ModalCart({ onClose }) {
     <div className="modal-cart-backdrop">
       <div className="modal-cart-box">
         <button className="modal-cart-close" onClick={onClose}>×</button>
+        
+        {/* Indicador de sincronización */}
+        {syncing && (
+          <div style={{
+            textAlign: 'center', 
+            padding: '10px', 
+            background: '#f0f0f0',
+            fontSize: '14px',
+            color: '#666'
+          }}>
+            🔄 Sincronizando carrito...
+          </div>
+        )}
+
+        {/* Mostrar si está usando backend o localStorage */}
+        {isAuthenticated && !syncing && (
+          <div style={{
+            textAlign: 'center', 
+            padding: '5px', 
+            background: '#e8f5e9',
+            fontSize: '12px',
+            color: '#2e7d32'
+          }}>
+            ✓ Carrito sincronizado con tu cuenta
+          </div>
+        )}
+        
         <div className="modal-cart-content">
           {cart.length === 0 ? (
             <div className="modal-cart-empty">
@@ -102,13 +181,6 @@ function ModalCart({ onClose }) {
               <button className="modal-cart-btn primary" onClick={handleGoToNew}>
                 EXPLORAR PRODUCTOS
               </button>
-              
-              {/* DEBUG: Mostrar información del localStorage */}
-              <div style={{marginTop: '2rem', padding: '1rem', background: '#f5f5f5', borderRadius: '8px', fontSize: '12px'}}>
-                <strong>Debug Info:</strong><br/>
-                localStorage cart: {JSON.parse(localStorage.getItem('cart'))?.length || 0} items<br/>
-                Cart state: {cart.length} items
-              </div>
             </div>
           ) : (
             <>
